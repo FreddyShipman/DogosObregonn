@@ -10,8 +10,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Transient;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -25,58 +27,55 @@ public class Cliente implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long num_cliente;
+    private Long id;
+
+    @Column(name="nombre")
     private String nombre;
-    private String apellidoPaterno;
-    private String apellidoMaterno;
-    private LocalDateTime fechaNacimiento;
+    @Column(name="ap_Paterno")
+    private String apPaterno;
+    @Column(name="ap_Materno")
+    private String apMaterno;
+    @Column(name="fch_nac")
+    private LocalDate fchNac;
     
-    @Transient
-    private Integer edad;
+    @OneToOne
+    @JoinColumn(name="cliente_recomienda_id",referencedColumnName = "id")
+    private Cliente clienteRecomienda;
     
     @ElementCollection
-    @CollectionTable(name = "cliente_telefonos", joinColumns = @JoinColumn(name = "cliente_id"))
-    @Column(name = "telefono")
+    @CollectionTable(name="Cliente_Telefonos",joinColumns = @JoinColumn(name="cliente_id"))
+    @Column(name="Telefono")
     private Set<String> telefonos;
     
     @ElementCollection
-    @CollectionTable(name = "cliente_preferencias", joinColumns = @JoinColumn(name = "cliente_id"))
-    @Column(name = "preferencia")
+    @CollectionTable(name="Cliente_Preferencias",joinColumns = @JoinColumn(name="cliente_id"))
+    @Column(name="Preferencia")
     private Set<String> preferencias;
     
     @OneToMany(mappedBy = "cliente")
     private Set<Pedido> pedidos;
-    
-    @ManyToOne
-    @JoinColumn(name = "recomendador_id")
-    private Cliente recomendadoPor;
-    
-    @OneToMany(mappedBy = "recomendadoPor")
-    private Set<Cliente> clientesRecomendados;
 
     public Cliente() {
     }
 
-    public Cliente(Long num_cliente, String nombre, String apellidoPaterno, String apellidoMaterno, LocalDateTime fechaNacimiento, Integer edad, Set<String> telefonos, Set<String> preferencias, Set<Pedido> pedidos, Cliente recomendadoPor, Set<Cliente> clientesRecomendados) {
-        this.num_cliente = num_cliente;
+    public Cliente(Long id, String nombre, String apPaterno, String apMaterno, LocalDate fchNac, Cliente clienteRecomienda, Set<String> telefonos, Set<String> preferencias, Set<Pedido> pedidos) {
+        this.id = id;
         this.nombre = nombre;
-        this.apellidoPaterno = apellidoPaterno;
-        this.apellidoMaterno = apellidoMaterno;
-        this.fechaNacimiento = fechaNacimiento;
-        this.edad = edad;
+        this.apPaterno = apPaterno;
+        this.apMaterno = apMaterno;
+        this.fchNac = fchNac;
+        this.clienteRecomienda = clienteRecomienda;
         this.telefonos = telefonos;
         this.preferencias = preferencias;
         this.pedidos = pedidos;
-        this.recomendadoPor = recomendadoPor;
-        this.clientesRecomendados = clientesRecomendados;
     }
 
-    public Long getNum_cliente() {
-        return num_cliente;
+    public Long getId() {
+        return id;
     }
 
-    public void setNum_cliente(Long num_cliente) {
-        this.num_cliente = num_cliente;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNombre() {
@@ -87,36 +86,36 @@ public class Cliente implements Serializable {
         this.nombre = nombre;
     }
 
-    public String getApellidoPaterno() {
-        return apellidoPaterno;
+    public String getApPaterno() {
+        return apPaterno;
     }
 
-    public void setApellidoPaterno(String apellidoPaterno) {
-        this.apellidoPaterno = apellidoPaterno;
+    public void setApPaterno(String apPaterno) {
+        this.apPaterno = apPaterno;
     }
 
-    public String getApellidoMaterno() {
-        return apellidoMaterno;
+    public String getApMaterno() {
+        return apMaterno;
     }
 
-    public void setApellidoMaterno(String apellidoMaterno) {
-        this.apellidoMaterno = apellidoMaterno;
+    public void setApMaterno(String apMaterno) {
+        this.apMaterno = apMaterno;
     }
 
-    public LocalDateTime getFechaNacimiento() {
-        return fechaNacimiento;
+    public LocalDate getFchNac() {
+        return fchNac;
     }
 
-    public void setFechaNacimiento(LocalDateTime fechaNacimiento) {
-        this.fechaNacimiento = fechaNacimiento;
+    public void setFchNac(LocalDate fchNac) {
+        this.fchNac = fchNac;
     }
 
-    public Integer getEdad() {
-        return edad;
+    public Cliente getClienteRecomienda() {
+        return clienteRecomienda;
     }
 
-    public void setEdad(Integer edad) {
-        this.edad = edad;
+    public void setClienteRecomienda(Cliente clienteRecomienda) {
+        this.clienteRecomienda = clienteRecomienda;
     }
 
     public Set<String> getTelefonos() {
@@ -141,23 +140,5 @@ public class Cliente implements Serializable {
 
     public void setPedidos(Set<Pedido> pedidos) {
         this.pedidos = pedidos;
-    }
-
-    public Cliente getRecomendadoPor() {
-        return recomendadoPor;
-    }
-
-    public void setRecomendadoPor(Cliente recomendadoPor) {
-        this.recomendadoPor = recomendadoPor;
-    }
-
-    public Set<Cliente> getClientesRecomendados() {
-        return clientesRecomendados;
-    }
-
-    public void setClientesRecomendados(Set<Cliente> clientesRecomendados) {
-        this.clientesRecomendados = clientesRecomendados;
-    }
-    
-    
+    }           
 }

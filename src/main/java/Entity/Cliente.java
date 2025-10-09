@@ -17,5 +17,7 @@ public class Cliente implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+    private String nombre;
+    private String apellidoPaterno;
+    private String apellidoMaterno;
 }

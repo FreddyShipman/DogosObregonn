@@ -1,1 +1,6 @@
+Entity\Cliente.class
+Entity\MetodoPago.class
+Entity\Pedido.class
 dogosobregonjpa\dogosobregon\DogosObregon.class
+Entity\PedidoDetalle.class
+Entity\HotDog.class

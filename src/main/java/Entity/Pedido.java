@@ -14,7 +14,6 @@ import jakarta.persistence.OneToMany;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Set;
-import static org.hibernate.engine.internal.Cascade.cascade;
 
 /**
  *

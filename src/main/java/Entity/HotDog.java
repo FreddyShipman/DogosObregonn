@@ -76,7 +76,5 @@ public class HotDog implements Serializable {
 
     public void setDetalles(Set<PedidoDetalle> detalles) {
         this.detalles = detalles;
-    }
-    
-    
+    } 
 }
